@@ -40,29 +40,34 @@ void mergesort(int left, int right, int numbers[], int buffer[])
     mergesort(left, mid , numbers, buffer); // sort left part of the array
     mergesort(mid, right, numbers, buffer); // sort right part of the array
     
-    int indexleft = left;
-    int indexright = mid;
-    // merge two sorted parts of the array into buffer
-    for (int b = left; b < right; b++)
-    {
-        if(indexleft == mid                                                         // if there's nothing left in the left part
-            || (indexright < right && numbers[indexright] < numbers[indexleft]))    // or there are still some items in the rigth part and there're less then the left ones 
-        {
-            buffer[b] = numbers[indexright];
-            indexright++;
-        }
-        else
-        {
-            buffer[b] = numbers[indexleft];
-            indexleft++;
-        }
-    }
-    // copy sorted portion of the buffer back
-    // to the original array
-    for(int k = left; k < right; k++)
-    {
-        numbers[k] = buffer[k];
-    }
+	// do not merge two parts if they are already in proper order
+	// ex., left |0|1| and right |5|6|
+	if (numbers[mid] < numbers[mid - 1])
+	{
+		int indexleft = left;
+		int indexright = mid;
+		// merge two sorted parts of the array into buffer
+		for (int b = left; b < right; b++)
+		{
+			if(indexleft == mid                                                         // if there's nothing left in the left part
+				|| (indexright < right && numbers[indexright] < numbers[indexleft]))    // or there are still some items in the rigth part and there're less then the left ones 
+			{
+				buffer[b] = numbers[indexright];
+				indexright++;
+			}
+			else
+			{
+				buffer[b] = numbers[indexleft];
+				indexleft++;
+			}
+		}
+		// copy sorted portion of the buffer back
+		// to the original array
+		for(int k = left; k < right; k++)
+		{
+			numbers[k] = buffer[k];
+		}
+	}
 }
 
 void print(int size, int array[])
