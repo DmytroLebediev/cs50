@@ -11,7 +11,6 @@ typedef struct
 
 typedef struct
 {
-	// 9. what can 'persons' store?
     PERSON* persons;
     int size;
 } PHONEBOOK;
@@ -65,12 +64,7 @@ int main(int argc, char **argv)
 	char *filename = argv[1];
     PHONEBOOK phonebook;
 	
-	// 10. what will be passed to the function if one writes
-	// 11. getpersons(phonebook, filename)?
-	// 12. getpersons(&phonebook, filename)?
-	// 13. getpersons(phonebook, *filename)?
 	getpersons(&phonebook, filename);
-	// 14. will it be correct to write sort(&phonebook.persons, &phonebook.size)?
     sort(phonebook.persons, phonebook.size);
 	
     printf("\nPlease enter phone number to find: ");
@@ -161,26 +155,16 @@ PERSON* binarysearch(int left, int right, int size, PERSON* persons, long long p
  */
 void getpersons(PHONEBOOK* phonebook, char* filename)
 {
-	// 15. what does it mean if phonebook is NULL or filename is NULL?
     if (phonebook == NULL || filename == NULL)
     {
         return;
     }
     
-	// 16. what does "r" mean?
     FILE* fp = fopen(filename, "r");
     if (fp != NULL)
     {
-		// 17. what can fgets return?
-		// 18. what does it mean if fgets return NULL?
-		// 19. what fgets is used for?
-		// 20. how will 'buffer' change after fgets?
         if (fgets(buffer, 256, fp) != NULL)
         {
-			// 21. what is stored in phonebook variable?
-			// 22. what is '->' operator used for?
-			// 23. what does (*phonebook) mean?
-			// 24. what is correct (*phonebook).size or (*phonebook)->size?
             phonebook->size = atoi(buffer);
             printf("%s\n", buffer);
         }
@@ -190,18 +174,29 @@ void getpersons(PHONEBOOK* phonebook, char* filename)
             // read surname
             if (fgets(buffer, 256, fp) != NULL)
             {
-				// 25. why phonebook->persons[i].lname equals to (*phonebook).persons[i].lname and to (phonebook->persons + i)->lname?
-                phonebook->persons[i].lname = buffer;
+                int length = strlen(buffer);
+                if (buffer[length - 1] == '\n')
+                {
+                    buffer[length - 1] = '\0';
+                }
+                phonebook->persons[i].lname = malloc(sizeof(char) * length);
+                strcpy(phonebook->persons[i].lname, buffer);
             }
             // read name
             if (fgets(buffer, 256, fp) != NULL)
             {
-                phonebook->persons[i].fname = buffer;
+                int length = strlen(buffer);
+                if (buffer[length - 1] == '\n')
+                {
+                    buffer[length - 1] = '\0';
+                }
+                phonebook->persons[i].fname = malloc(sizeof(char) * length);
+                strcpy(phonebook->persons[i].fname, buffer);
             }
             // read phone
             if (fgets(buffer, 256, fp) != NULL)
             {
-                phonebook->persons[i].phone = atoll(buffer);
+				phonebook->persons[i].phone = atoll(buffer);
             }
         }
     }
