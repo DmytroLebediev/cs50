@@ -51,6 +51,7 @@ int main(int argc, char** argv)
     {
         printf("error while reading a file\n");
     }
+    fclose(fptr);
     
     printlist(root);
     
