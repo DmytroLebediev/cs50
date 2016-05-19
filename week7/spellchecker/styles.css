@@ -28,11 +28,11 @@ select
     position: absolute;
     bottom: 0;
     width: 100%;
+    margin: 0 0 0.5em 0;
     text-align: center;
-    padding: 0 0 0.5em 0;
     font-weight: lighter;
     font-size: 0.8em;
-    color: #bdbdbd;
+    color: #a0a0a0;
 }
 
 .message
@@ -41,7 +41,6 @@ select
     top: 0;
     width: 100%;
     text-align: center;
-    padding: 2em 0 0 0;
     font-weight: lighter;
     font-size: 2em;
 }
@@ -59,4 +58,20 @@ select
 .loading img
 {
     height: 100%;
+}
+
+.wrongword
+{
+    color: red;
+    text-decoration: underline;
+}
+
+#checkedtext
+{
+    position: absolute;
+    top: 0;
+    bottom: 1.5em;
+    width: 100%;
+    font-weight: lighter;
+    overflow: auto;
 }

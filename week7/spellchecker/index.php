@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <form action="spellchecker.php">
+        <form action="spellchecker.php" method="post">
             <select name="selectedfile">
                 <?php
                     $items = scandir("./texts");
@@ -21,10 +21,8 @@
             </select>
             <input type="submit" />
         </form>
-        <div class="footer">
-            <?php
-                echo "Copyright &copy; 1991-".date("Y")." Lebediev";
-            ?>
-        </div>
+        <?php
+            require("footer.php");
+        ?>
     </body>
 </html>
