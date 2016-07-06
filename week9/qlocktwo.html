@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<style>
+		html, body {
+			width:		100%;
+			heght:		100%;
+			background:	#000000;
+			overflow:	hidden;
+		}
+		
+		.common {
+			color:			#666666;
+			border:			none;
+			padding:		0.5em;
+			font-size:		1em;
+			font-family:	'Segoe UI', 'Segoe Print', 'Comic Sans MS', Arial, Verdana, Tahoma, 'Century Gothic';
+		}
+		
+		.highlight {
+			color:			#ffffff;
+			border:			none;
+			padding:		0.5em;
+			text-shadow:	0 0 0.5em #ffffff;
+			-ms-filter:     "progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#ffffff')";
+		}
+		
+		.minute {
+			color:			#242424;
+			padding:		0.5em;
+			position:		absolute;
+		}
+		
+		.minute-highlight {
+			color:			#ffffff;
+			padding:		0.5em;
+			position:		absolute;
+			text-shadow:	0 0 0.5em #ffffff;
+		}
+		</style>
+	</head>
+	<body onload="UpdateTime();">		
+		<center>
+			<div id="minute1" class="minute" style="top:0;left:0;">•</div>
+			<div id="minute2" class="minute" style="top:0;right:0;">•</div>
+			<div id="minute4" class="minute" style="bottom:0;right:0;">•</div>
+			<div id="minute3" class="minute" style="bottom:0;left:0;">•</div>
+			<table id="timetable">
+				<tr><td class="common">I</td><td class="common">T</td><td class="common">L</td><td class="common">I</td><td class="common">S</td><td class="common">A</td><td class="common">S</td><td class="common">T</td><td class="common">I</td><td class="common">M</td><td class="common">E</td></tr>
+				<tr><td class="common">A</td><td class="common">C</td><td class="common">Q</td><td class="common">U</td><td class="common">A</td><td class="common">R</td><td class="common">T</td><td class="common">E</td><td class="common">R</td><td class="common">D</td><td class="common">C</td></tr>
+				<tr><td class="common">T</td><td class="common">W</td><td class="common">E</td><td class="common">N</td><td class="common">T</td><td class="common">Y</td><td class="common">F</td><td class="common">I</td><td class="common">V</td><td class="common">E</td><td class="common">X</td></tr>
+				<tr><td class="common">H</td><td class="common">A</td><td class="common">L</td><td class="common">F</td><td class="common">B</td><td class="common">T</td><td class="common">E</td><td class="common">N</td><td class="common">F</td><td class="common">T</td><td class="common">O</td></tr>
+				<tr><td class="common">P</td><td class="common">A</td><td class="common">S</td><td class="common">T</td><td class="common">E</td><td class="common">R</td><td class="common">U</td><td class="common">N</td><td class="common">I</td><td class="common">N</td><td class="common">E</td></tr>
+				<tr><td class="common">O</td><td class="common">N</td><td class="common">E</td><td class="common">S</td><td class="common">I</td><td class="common">X</td><td class="common">T</td><td class="common">H</td><td class="common">R</td><td class="common">E</td><td class="common">E</td></tr>
+				<tr><td class="common">F</td><td class="common">O</td><td class="common">U</td><td class="common">R</td><td class="common">F</td><td class="common">I</td><td class="common">V</td><td class="common">E</td><td class="common">T</td><td class="common">W</td><td class="common">O</td></tr>
+				<tr><td class="common">E</td><td class="common">I</td><td class="common">G</td><td class="common">H</td><td class="common">T</td><td class="common">E</td><td class="common">L</td><td class="common">E</td><td class="common">V</td><td class="common">E</td><td class="common">N</td></tr>
+				<tr><td class="common">S</td><td class="common">E</td><td class="common">V</td><td class="common">E</td><td class="common">N</td><td class="common">T</td><td class="common">W</td><td class="common">E</td><td class="common">L</td><td class="common">V</td><td class="common">E</td></tr>
+				<tr><td class="common">T</td><td class="common">E</td><td class="common">N</td><td class="common">S</td><td class="common">E</td><td class="common">O'</td><td class="common">C</td><td class="common">L</td><td class="common">O</td><td class="common">C</td><td class="common">K</td></tr>
+			</table>
+		</center>
+		
+		<script>
+			var timetable = document.getElementById("timetable");
+			
+			var hourCells;
+			var minuteCells;
+			
+			(function() {
+				hourCells = new Array();
+				hourCells[0] = [[0,0], [0,1], [0,3], [0,4], [5,0], [5,1], [5,2]];
+				hourCells[1] = [[0,0], [0,1], [0,3], [0,4], [6,8], [6,9], [6,10]];
+				hourCells[2] = [[0,0], [0,1], [0,3], [0,4], [5,6], [5,7], [5,8], [5,9], [5,10]];
+				hourCells[3] = [[0,0], [0,1], [0,3], [0,4], [6,0], [6,1], [6,2], [6,3]];
+				hourCells[4] = [[0,0], [0,1], [0,3], [0,4], [6,4], [6,5], [6,6], [6,7]];
+				hourCells[5] = [[0,0], [0,1], [0,3], [0,4], [5,3], [5,4], [5,5]];
+				hourCells[6] = [[0,0], [0,1], [0,3], [0,4], [8,0], [8,1], [8,2], [8,3], [8,4]];
+				hourCells[7] = [[0,0], [0,1], [0,3], [0,4], [7,0], [7,1], [7,2], [7,3], [7,4]]; 
+				hourCells[8] = [[0,0], [0,1], [0,3], [0,4], [4,7], [4,8], [4,9], [4,10]];
+				hourCells[9] = [[0,0], [0,1], [0,3], [0,4], [9,0], [9,1], [9,2]];
+				hourCells[10] = [[0,0], [0,1], [0,3], [0,4], [7,5], [7,6], [7,7], [7,8], [7,9], [7,10]];
+				hourCells[11] = [[0,0], [0,1], [0,3], [0,4], [8,5], [8,6], [8,7], [8,8], [8,9], [8,10]];
+				
+				minuteCells = new Array();
+				minuteCells[0] = [[9,5], [9,6], [9,7], [9,8], [9,9], [9,10]];
+				minuteCells[1] = [[2,6], [2,7], [2,8], [2,9], [4,0], [4,1], [4,2], [4,3]];
+				minuteCells[2] = [[3,5], [3,6], [3,7], [4,0], [4,1], [4,2], [4,3]];
+				minuteCells[3] = [[1,0], [1,2], [1,3], [1,4], [1,5], [1,6], [1,7], [1,8], [4,0], [4,1], [4,2], [4,3]];
+				minuteCells[4] = [[2,0], [2,1], [2,2], [2,3], [2,4], [2,5], [4,0], [4,1], [4,2], [4,3]];
+				minuteCells[5] = [[2,0], [2,1], [2,2], [2,3], [2,4], [2,5], [2,6], [2,7], [2,8], [2,9], [4,0], [4,1], [4,2], [4,3]];
+				minuteCells[6] = [[3,0], [3,1], [3,2], [3,3], [4,0], [4,1], [4,2], [4,3]];
+				minuteCells[7] = [[2,0], [2,1], [2,2], [2,3], [2,4], [2,5], [2,6], [2,7], [2,8], [2,9], [3,9], [3,10]];
+				minuteCells[8] = [[2,0], [2,1], [2,2], [2,3], [2,4], [2,5], [3,9], [3,10]];
+				minuteCells[9] = [[1,0], [1,2], [1,3], [1,4], [1,5], [1,6], [1,7], [1,8], [3,9], [3,10]];
+				minuteCells[10] = [[3,5], [3,6], [3,7], [3,9], [3,10]];
+				minuteCells[11] = [[2,6], [2,7], [2,8], [2,9], [3,9], [3,10]];
+			})()
+			
+			function Tune(minutes, seconds, milliseconds) {
+				var interval = 0;
+				while (interval < minutes) {
+					interval += 5;
+				}
+				interval *= 60 * 1000;
+				interval -= minutes*60*1000 + seconds*1000 + milliseconds;
+				
+				setTimeout(UpdateTime, interval);
+			}
+			
+			function UpdateTime() {
+				var time = new Date();
+				var hours = time.getHours();
+				var minutes = time.getMinutes();
+				var seconds = time.getSeconds();
+				var milliseconds = time.getMilliseconds();
+				
+				if (minutes >= 35) {
+					hours++;
+				}
+				hours %= 12;
+				
+				Tune(minutes, seconds, milliseconds);
+				ClearCells();
+				SetHours(hours);
+				SetMinutes(minutes);
+			}
+			
+			function ClearCells() {
+				for (var i=0; i<10; i++) {
+					for (var j=0; j<11; j++) {
+						ClearCell(i, j);
+					}
+				}
+				for (var i=1; i<5; i++) {
+					document.getElementById("minute" + i).className = "minute";
+				}
+			}
+			
+			function SetHours(hours) {
+				for (var i=0; i<hourCells[hours-1].length; i++) {
+					HighlightCell(hourCells[hours-1][i][0], hourCells[hours-1][i][1]);
+				}
+			}
+			
+			function SetMinutes(minutes) {
+				for (var i=1; i<=minutes%5; i++) {
+					document.getElementById("minute" + i).className = "minute-highlight";
+				}
+				minutes = Math.floor(minutes/5);
+				for (var i=0; i<minuteCells[minutes].length; i++) {
+					HighlightCell(minuteCells[minutes][i][0], minuteCells[minutes][i][1]);
+				}
+			}
+			
+			function HighlightCell(row, column) {
+				timetable.rows[row].cells[column].className += " highlight";
+			}
+			
+			function ClearCell(row, column) {
+				timetable.rows[row].cells[column].className = "common";
+			}
+		</script>
+	</body>
+</html>
