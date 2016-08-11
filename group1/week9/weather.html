@@ -1,0 +1,126 @@
+<html>
+	<head>
+		<title>YAHOO weather</title>
+		
+		<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/smoothness/jquery-ui.css">
+		
+		<script src="mustache.min.js"></script>
+        <script src="underscore-min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+	</head>
+	
+	<body>
+	    <form id="cityform">
+	        <input id="cityname" type="text" />
+	        <input type="submit" />
+	    </form>
+    
+	    <div id="weather">
+	        <div id="loction">
+	            <span id='city'></span>
+	            <span id='country'></span>
+	        </div>
+	        <div id="astronomy">
+	            <span id="sunrise"></span>
+	            <span id="sunset"></span>
+	        </div>
+	        <div id="atmosphere">
+	            <span id="humidity"></span>
+	            <span id="pressure"></span>
+	        </div>
+	        <div id="condition">
+	            <span id="temperature"></span>
+	            <span id="description"></span>
+	            <div id="wind">
+	                <span id="chill"></span>
+	                <span id="direction"></span>
+	                <span id="speed"></span>
+	            </div>
+	        </div>
+	        <div id="forecast">
+	            <ul>
+	                
+	            </ul>
+	        </div>
+	    </div>
+	    
+	    <script type="template" id="forecastTemplate">
+	        {{#forecast}}
+	            <li>
+	                <span>{{date}}</span>
+	                <span>{{day}}</span>
+	                <span>{{high}}</span>
+	                <span>{{low}}</span>
+	                <span>{{text}}</span>
+	            </li>
+	        {{/forecast}}
+	    </script>
+	    
+	    <script>
+	    	
+	    	var forecastTemplate;
+	        var places = {
+	        	source: []
+	        };
+	        
+	        var cityField;
+	    
+	        $(document).ready(onDocumnetLoaded);
+	        
+	        function onDocumnetLoaded() {
+	        	cityField = $('#cityname');
+	        	
+	            $('#cityform').submit(onWeatherRequested);
+	            cityField.keyup(onCityChanged);
+	            forecastTemplate = $('#forecastTemplate').text();
+	            Mustache.parse(forecastTemplate);
+	        }
+	        
+	        function onCityChanged(event) {
+	        	if (cityField.val().length > 2) {
+	        		var query = "https://query.yahooapis.com/v1/public/yql?q=select name, woeid, centroid from geo.places \
+	        		where text = '"  + cityField.val() + "*'\
+		            &format=json&callback=cityCallback";
+		            $.get(query);
+	        	}
+	        }
+	        
+	        function cityCallback(data) {
+	        	if (data && data.query && data.query.count > 0 ) {
+	                places.source = _.map(data.query.results.place, function(place) { return place.name; });
+	                cityField.autocomplete(places);
+	            }
+	            else {
+	                // smth went wrong
+	                console.log('request failed');
+	            }
+	        }
+	        
+	        function onWeatherRequested(event) {
+	            // TODO send request to yahoo
+	            var query = "https://query.yahooapis.com/v1/public/yql?q=select * from weather.forecast where woeid in \
+	            (select woeid from geo.places(1) where text = '" + cityField.val() + "' )\
+	            &format=json&callback=weatherCallback";
+	            $.get(query);
+	            event.preventDefault();
+	        }
+	        
+	        function weatherCallback(data) {
+	            console.log('callback');
+	            console.info(data);
+	            if (data && data.query && data.query.count > 0 ) {
+	                console.log('request OK');
+                    var wind = data.query.results.channel.wind;
+                    
+                    var rendered = Mustache.render(forecastTemplate, data.query.results.channel.item);
+                    $('#forecast ul').html(rendered);
+	            }
+	            else {
+	                // smth went wrong
+	                console.log('request failed');
+	            }
+	        }
+	    </script>
+	</body>
+</html>
