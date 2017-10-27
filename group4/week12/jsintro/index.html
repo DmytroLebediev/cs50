@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JS practice</title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        <script src="js/script.js"></script>
+
+        <script>
+            console.log("HEAD loaded");
+
+            var outputDiv;
+
+            function findOutput() {
+                if (!outputDiv) {
+                    outputDiv = document.getElementById("output");
+                }
+            }
+
+            function formatDate(date) {
+                return date.getFullYear()
+                    + '-' + (date.getMonth() + 1)
+                    + '-' + date.getDate()
+                    + ' ' + date.getHours()
+                    + ':' + date.getMinutes()
+                    + ':' + date.getSeconds();
+            }
+
+            function log(message) {
+                findOutput();
+                var date = new Date();
+
+                outputDiv.innerHTML += "<span class='time'>" + formatDate(date) + "</span>"
+                    + "<span class='message'>" + message + "</span>";
+            }
+        </script>
+    </head>
+
+    <body>
+
+        <div id="output"></div>
+
+		<input type="button" id="toggle" value="-">
+
+        <div id="form">
+			<input type="button" value="print smth" tag="a" onclick="onButtonClick(this)">
+            <input type="button" value="print smth" tag="b" onclick="onButtonClick(this)">
+            <input type="button" value="print smth" tag="b" onclick="onButtonClick(this)">
+            <input type="button" value="print smth" tag="c" onclick="onButtonClick(this)">
+
+            <input type="button" value="print entered message" onclick="onMessageButtonClick()">
+			<input type="text" value="" id="messagetext">
+        </div>
+
+        <script>
+            console.log("BODY loaded");
+
+            var dictionary = {
+               "a": sayHello,
+               "b": sayGoodbye,
+               "c": citeLoremIpsum
+            };
+
+			function onMessageButtonClick() {
+				log(document.getElementById("messagetext").value);
+			}
+
+            function onButtonClick(button) {
+                var tag = button.getAttribute("tag");
+                var func = dictionary[tag];
+                func();
+
+				log(typeof button);
+				log(typeof tag);
+				log(typeof func);
+				log(button);
+				log(JSON.stringify(array));
+				log(JSON.stringify(obj));
+            }
+
+            function sayHello() {
+                log("Hello, world!");
+            }
+
+            function sayGoodbye() {
+                log("Goodbye, world!");
+            }
+
+            function citeLoremIpsum() {
+                log("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+            }
+
+
+			var obj = {
+				"Ford": 1,
+				"BMW": 2,
+				"Fiat": 3
+			};
+			var array = [ "Ford", "BMW", "Fiat" ];
+        </script>
+    </body>
+</html>
